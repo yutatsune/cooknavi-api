@@ -1,7 +1,7 @@
 version: 2.1
 
 jobs:
-  test_backend:
+  test_back:
     docker:
       - image: circleci/ruby:2.6.6-stretch-node
         environment:
@@ -17,9 +17,9 @@ jobs:
       # restore gem from cache
       - restore_cache:
           keys:
-            - gem-cache-v1-{{ checksum "~/repo/backend/Gemfile.lock" }}
+            - gem-cache-v1-{{ checksum "~/repo/back/Gemfile.lock" }}
             - gem-cache-v1-
-          working_directory: ~/repo/backend
+          working_directory: ~/repo/back
 
       # gem install
       - run:
@@ -27,26 +27,26 @@ jobs:
             gem install bundler
             bundle config set path 'vendor/bundle'
             bundle install --jobs=4 --retry=3
-          working_directory: ~/repo/backend
+          working_directory: ~/repo/back
 
       - save_cache:
-          key: gem-cache-v1-{{ checksum "~/repo/backend/Gemfile.lock" }}
+          key: gem-cache-v1-{{ checksum "~/repo/back/Gemfile.lock" }}
           paths:
-            - ~/repo/backend/vendor/bundle
-          working_directory: ~/repo/backend
+            - ~/repo/back/vendor/bundle
+          working_directory: ~/repo/back
 
       # Database setup
       - run:
           command: bundle exec rails db:create
-          working_directory: ~/repo/backend
+          working_directory: ~/repo/back
       - run:
           command: bundle exec rails db:migrate
-          working_directory: ~/repo/backend
+          working_directory: ~/repo/back
 
       - run:
           name: create directory to store test results
           command: mkdir /tmp/test-results
-          working_directory: ~/repo/backend
+          working_directory: ~/repo/back
 
       # run tests
       - run:
@@ -54,7 +54,7 @@ jobs:
           command: |
             bundle exec rspec $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings) \
               || (printf "====== RETRYING...\n\n\n"; bundle exec rspec --only-failures)
-          working_directory: ~/repo/backend
+          working_directory: ~/repo/back
 
       # collect reports
       - store_test_results:
@@ -65,7 +65,7 @@ jobs:
       - store_artifacts:
           path: /home/circleci/repo/tmp/screenshots
 
-  test_frontend:
+  test_front:
     docker:
       - image: circleci/node:14.3
         environment:
@@ -77,32 +77,31 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "~/repo/frontend/package.json" }}
-          working_directory: ~/repo/frontend
+            - v1-dependencies-{{ checksum "~/repo/front/package.json" }}
+          working_directory: ~/repo/front
       - run:
           name: install-packages
           command: npm install
-          working_directory: ~/repo/frontend
+          working_directory: ~/repo/front
       - save_cache:
           paths:
             - node_modules
-          key: v1-dependencies-{{ checksum "~/repo/frontend/package.json" }}
-          working_directory: ~/repo/frontend
+          key: v1-dependencies-{{ checksum "~/repo/front/package.json" }}
+          working_directory: ~/repo/front
       - run:
           name: test
-          command: npm run test
-          working_directory: ~/repo/frontend
+          command: yarn lint:check
+          working_directory: ~/repo/front
 
 workflows:
   version: 2
   test:
     jobs:
-      - test_backend:
+      - test_back:
           filters:
             branches:
               ignore: main
-      - test_frontend:
+      - test_front:
           filters:
             branches:
               ignore: main
-              
