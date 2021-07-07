@@ -55,6 +55,11 @@ jobs:
             bundle exec rspec $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings) \
               || (printf "====== RETRYING...\n\n\n"; bundle exec rspec --only-failures)
           working_directory: ~/repo/back
+      
+      - run:
+          name: rubocop
+          command: rubocop
+          working_directory: ~/repo/back
 
       # collect reports
       - store_test_results:
@@ -90,6 +95,10 @@ jobs:
           working_directory: ~/repo/front
       - run:
           name: test
+          command: yarn jest
+          working_directory: ~/repo/front
+      - run:
+          name: linter
           command: yarn lint:check
           working_directory: ~/repo/front
 
