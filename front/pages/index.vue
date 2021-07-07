@@ -23,7 +23,7 @@ export default {
   },
   methods: {
     getSomething() {
-      alert("Get Something!!")
+      alert('Get Something!!')
     }
   },
 }
