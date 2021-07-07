@@ -58,7 +58,7 @@ jobs:
       
       - run:
           name: rubocop
-          command: rubocop
+          command: bundle exec rubocop
           working_directory: ~/repo/back
 
       # collect reports
