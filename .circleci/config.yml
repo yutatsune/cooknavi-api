@@ -37,10 +37,10 @@ jobs:
 
       # Database setup
       - run:
-          command: rails db:create
+          command: /bin/ash rails db:create
           working_directory: ~/repo/back
       - run:
-          command: rails db:migrate
+          command: /bin/ash rails db:migrate
           working_directory: ~/repo/back
 
       - run:
