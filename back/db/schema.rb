@@ -10,10 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_07_055014) do
+ActiveRecord::Schema.define(version: 2021_07_09_045418) do
 
-  create_table "tests", charset: "utf8mb4", force: :cascade do |t|
-    t.string "title"
+  create_table "recipes", charset: "utf8mb4", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "explanation", null: false
+    t.text "foodstuff", null: false
+    t.text "how", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
