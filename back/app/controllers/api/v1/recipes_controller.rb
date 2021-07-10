@@ -34,11 +34,11 @@ class Api::V1::RecipesController < ApplicationController
 
   private
 
-  def set_recipe
-    @recipe = Recipe.find(params[:id])
-  end
+    def set_recipe
+      @recipe = Recipe.find(params[:id])
+    end
 
-  def recipe_params
-    params.permit(:name, :explanation, :foodstuff, :how)
-  end
+    def recipe_params
+      params.permit(:name, :explanation, :foodstuff, :how)
+    end
 end
