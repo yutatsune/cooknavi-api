@@ -1,6 +1,7 @@
 <template>
   <v-app>
     <v-card class="container">
+      <v-btn @click="toTop()">Topへ</v-btn>
       <v-card-title>レシピの投稿</v-card-title>
       <v-card-text>
         <v-card-subtitle>レシピ名</v-card-subtitle>
@@ -49,6 +50,9 @@ export default {
     how: null,
   }),
   methods: {
+    toTop() {
+      this.$router.push('/recipes')
+    },
     postRecipe() {
       const url = 'api/v1/recipes';
       const recipe = {
