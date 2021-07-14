@@ -2,6 +2,9 @@
   <v-app>
     <v-card>
       <v-card-text>{{ recipe.name }}</v-card-text>
+      <v-card-text>{{ recipe.explanation }}</v-card-text>
+      <v-card-text>{{ recipe.foodstuff }}</v-card-text>
+      <v-card-text>{{ recipe.how }}</v-card-text>
       <v-btn @click="toTop()">Topへ</v-btn>
     </v-card>
   </v-app>
