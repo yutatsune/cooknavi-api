@@ -21,7 +21,7 @@ class Api::V1::RecipesController < ApplicationController
 
   def destroy
     @recipe.destroy
-    render json: { status: 'SUCCESS', message: 'Deleted the recipe', data: '@recipe' }
+    render json: { status: 'SUCCESS', message: 'Deleted the recipe', data: @recipe }
   end
 
   def update
