@@ -20,10 +20,13 @@
 const axios = require('axios')
 let url = 'http://localhost:3000/api/v1/recipes';
 export default {
-  data: function(){
+  data: () => {
     return {
       recipes: []
     }
+  },
+  mounted() {
+    this.fetchContents()
   },
   methods:{
     toNew() {
@@ -31,11 +34,15 @@ export default {
     },
     toShow(id) {
       this.$router.push(`/recipes/${id}`)
+    },
+    fetchContents() {
+      const url = "/api/v1/recipes"
+      this.$axios.get(url)
+        .then(res =>{
+          this.recipes = res.data.data
+        })
+        .catch(() => {})
     }
   },
-  async asyncData() {
-    let recipe = await axios.get(url);
-    return { recipes: recipe.data.data }
-  }
 }
 </script>

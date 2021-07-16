@@ -5,7 +5,7 @@
       <v-dialog v-model="dialog">
         <!-- アクティベータースロット -->
         <template v-slot:activator="{ on }">
-          <v-btn v-on="on">
+          <v-btn @click="openEdit()" v-on="on">
             編集
           </v-btn>
         </template>
@@ -16,18 +16,18 @@
             <v-card-subtitle>レシピ名</v-card-subtitle>
             <v-text-field
               type="text"
-              v-model="recipe.name"
+              v-model="name"
             ></v-text-field>
             <v-card-subtitle>このレシピについて</v-card-subtitle>
             <v-textarea
               type="text"
-              v-model="recipe.explanation"
+              v-model="explanation"
             >
             </v-textarea>
             <v-card-subtitle>材料</v-card-subtitle>
             <v-textarea
               type="text"
-              v-model="recipe.foodstuff"
+              v-model="foodstuff"
             >
             </v-textarea>
             <v-card-actions>
@@ -36,7 +36,7 @@
             <v-card-subtitle>作り方</v-card-subtitle>
             <v-textarea
               type="text"
-              v-model="recipe.how"
+              v-model="how"
             >
             </v-textarea>
             <v-card-actions>
@@ -68,21 +68,31 @@ export default {
   data: () => {
     return {
       dialog: false,
-      recipe: "",
+      recipe: {},
+      name: "",
+      explanation: "",
+      foodstuff: "",
+      how: "",
     }
   },
   mounted() {
-    this.fetchContext()
+    this.fetchContent()
   },
   methods:{
     toTop() {
       this.$router.push('/recipes')
     },
-    fetchContext() {
+    fetchContent() {
       const url = `api/v1/recipes/${this.$route.params.id}`
       this.$axios.get(url)
         .then(res => this.recipe = res.data.data)
         .catch(error => console.log(error));
+    },
+    openEdit() {
+      this.name = this.recipe.name
+      this.explanation = this.recipe.explanation
+      this.foodstuff = this.recipe.foodstuff
+      this.how = this.recipe.how
     },
     update() {
       const url = `api/v1/recipes/${this.$route.params.id}`
@@ -92,6 +102,7 @@ export default {
         foodstuff: this.foodstuff,
         how: this.how,
       };
+      console.log(recipe)
       this.$axios.put(url, {recipe})
         .then(res => console.log(res.status))
         .catch(error => console.log(error));
