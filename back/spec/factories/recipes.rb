@@ -1,5 +1,4 @@
 FactoryBot.define do
-  factory :test do
-    
+  factory :recipe do
   end
 end

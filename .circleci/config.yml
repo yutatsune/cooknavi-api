@@ -36,6 +36,7 @@ jobs:
           working_directory: ~/repo/back
 
       # Database setup
+      - run: mv back/config/database.yml.ci back/config/database.yml
       - run:
           command: bundle exec rails db:create
           working_directory: ~/repo/back

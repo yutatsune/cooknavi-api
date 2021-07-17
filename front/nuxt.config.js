@@ -42,9 +42,9 @@ export default {
     '/api': {
       target: 'http://localhost:3000',
       pathRewrite: {
-        '^/api': '/api/v1',
-      },
-    },
+        '^/api' : '/api/v1'
+      }
+    }
   },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
