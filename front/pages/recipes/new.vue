@@ -62,7 +62,10 @@ export default {
         how: this.how,
       };
       this.$axios.post(url, { recipe })
-        .then(res => console.log(res.status))
+        .then(res => {
+          console.log(res.status)
+          this.toTop()
+        })
         .catch(error => console.log(error));
     },
   }

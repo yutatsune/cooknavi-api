@@ -2,7 +2,7 @@
   <v-app>
     <v-card>
       <v-btn @click="toTop()">Topへ</v-btn>
-      <v-dialog v-model="dialog">
+      <v-dialog v-model="editDialog">
         <!-- アクティベータースロット -->
         <template v-slot:activator="{ on }">
           <v-btn @click="openEdit()" v-on="on">
@@ -49,8 +49,30 @@
             </v-btn>
           </v-card-actions>
           <v-card-actions>
-            <v-btn @click="dialog = false">
+            <v-btn @click="editDialog = false">
               キャンセル
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+      <v-dialog v-model="deleteDialog">
+        <!-- アクティベータースロット -->
+        <template v-slot:activator="{ on }">
+          <v-btn @click="openDelete()" v-on="on">
+            削除
+          </v-btn>
+        </template>
+        <!-- ダイアログコンテンツ -->
+        <v-card>
+          <v-card-title>このレシピを削除しますか？</v-card-title>
+          <v-card-actions>
+            <v-btn @click="deleteDialog = false">
+              キャンセル
+            </v-btn>
+          </v-card-actions>
+          <v-card-actions>
+            <v-btn @click="destroy()">
+              削除する
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -67,7 +89,8 @@
 export default {
   data: () => {
     return {
-      dialog: false,
+      editDialog: false,
+      deleteDialog: false,
       recipe: {},
       name: "",
       explanation: "",
@@ -94,6 +117,9 @@ export default {
       this.foodstuff = this.recipe.foodstuff
       this.how = this.recipe.how
     },
+    openDelete() {
+
+    },
     update() {
       const url = `api/v1/recipes/${this.$route.params.id}`
       const recipe = {
@@ -104,7 +130,20 @@ export default {
       };
       console.log(recipe)
       this.$axios.put(url, {recipe})
-        .then(res => console.log(res.status))
+        .then(res => {
+          console.log(res.status)
+          this.recipe = res.data.data
+          this.editDialog = false
+        })
+        .catch(error => console.log(error));
+    },
+    destroy() {
+      const url = `api/v1/recipes/${this.$route.params.id}`
+      this.$axios.delete(url)
+        .then(res => {
+          console.log(res.status)
+          this.toTop()
+        })
         .catch(error => console.log(error));
     }
   }
