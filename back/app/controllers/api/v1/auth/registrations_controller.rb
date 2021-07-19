@@ -5,11 +5,11 @@ module Api
         private
 
           def sign_up_params
-            params.permit(:nickname, :email, :password, :password_confirmation)
+            params.permit(:nickname, :email, :password, :password_confirmation, registration:{})
           end
 
           def account_update_params
-            params.permit(:nickname, :email)
+            params.permit(:nickname, :email, :password, registration:{})
           end
       end
     end
