@@ -18,7 +18,7 @@
 
 <script>
 const axios = require('axios')
-let url = 'http://localhost:3000/api/v1/recipes';
+let url = 'api/v1/recipes';
 export default {
   data: () => {
     return {
